@@ -249,13 +249,13 @@
 
       if (from === 'CUP' && to === 'ARS') {
         const ars = (num / (TASA_CUP * (1 + EXTRA_PCT))) * TASA_ARS;
-        resultText = `💱 Con ${formatNumber(num)} CUP recibís aprox. ${formatNumber(ars)} ARS.`;
+        resultText = `$ Con ${formatNumber(num)} CUP recibís aprox. ${formatNumber(ars)} ARS.`;
         lastResult = `Quiero enviar ${formatNumber(num)} CUP y recibir ${formatNumber(ars)} ARS.`;
       }
       else if (from === 'ARS' && to === 'CUP') {
         const cup = ((num / TASA_ARS) * (1 + EXTRA_PCT)) * TASA_CUP;
-        resultText = `💱 Recibís aprox. ${formatNumber(cup)} CUP con ${formatNumber(num)} ARS.`;
-        lastResult = `Quiero enviar ${formatNumber(num)} ARS y recibir ${formatNumber(cup)} CUP.`;
+        resultText = `$ Recibís aprox. ${formatNumber(cup)} ARS con ${formatNumber(num)} CUP.`;
+        lastResult = `Quiero enviar ${formatNumber(num)} CUP y recibir ${formatNumber(ars)} ARS.`;
       }
       else {
         resultText = 'Conversión no válida.';
