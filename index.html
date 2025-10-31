@@ -255,7 +255,7 @@
       else if (from === 'ARS' && to === 'CUP') {
         const cup = ((num / TASA_ARS) * (1 + EXTRA_PCT)) * TASA_CUP;
         resultText = `$ Recibís aprox. ${formatNumber(cup)} ARS con ${formatNumber(num)} CUP.`;
-        lastResult = `Quiero enviar ${formatNumber(num)} CUP y recibir ${formatNumber(ars)} ARS.`;
+        lastResult = `Quiero enviar ${formatNumber(cup)} CUP y recibir ${formatNumber(num)} ARS.`;
       }
       else {
         resultText = 'Conversión no válida.';
