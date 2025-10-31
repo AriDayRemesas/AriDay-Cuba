@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AriDay Remesas</title>
+  <style>
+    :root {
+      --tasa-ars: 1400;
+      --tasa-cup: 515;
+      --extra: 0.10;
+
+      --azul-cuba: #0033a0;
+      --rojo-cuba: #d32f2f;
+      --blanco-cuba: #ffffff;
+      --gris-fondo: #f5f7fa;
+      --texto-principal: #0a0a0a;
+      --borde-suave: #cfd3dc;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+      padding: 1.5rem;
+      background: var(--gris-fondo);
+      color: var(--texto-principal);
+    }
+
+    .card {
+      background: var(--blanco-cuba);
+      max-width: 450px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      border: 2px solid var(--azul-cuba);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 6px;
+      width: 100%;
+      background: repeating-linear-gradient(
+        to right,
+        var(--azul-cuba) 0 20%,
+        var(--blanco-cuba) 20% 40%,
+        var(--azul-cuba) 40% 60%,
+        var(--blanco-cuba) 60% 80%,
+        var(--azul-cuba) 80% 100%
+      );
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--azul-cuba);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    h2 .flag {
+      font-size: 1.2rem;
+    }
+
+    p.subtitle {
+      margin: 0.2rem 0 1rem;
+      font-size: 0.9rem;
+    }
+    p.subtitle a {
+      text-decoration: none;
+      color: var(--rojo-cuba);
+      font-weight: 500;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: var(--azul-cuba);
+      font-size: 0.95rem;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      margin-top: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    select {
+      flex: 1;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--borde-suave);
+      border-radius: 0.6rem;
+      font-size: 1rem;
+      background: var(--blanco-cuba);
+      color: var(--texto-principal);
+      font-weight: 500;
+    }
+
+    .swap-btn {
+      padding: 0.6rem 0.8rem;
+      border: none;
+      background: var(--rojo-cuba);
+      color: var(--blanco-cuba);
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(211,47,47,0.4);
+    }
+
+    input, button.main-btn {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.7rem 0.75rem;
+      border: 1px solid var(--borde-suave);
+      border-radius: 0.6rem;
+      font-size: 1rem;
+      box-sizing: border-box;
+      font-weight: 500;
+    }
+
+    input {
+      background: var(--blanco-cuba);
+      color: var(--texto-principal);
+    }
+
+    button.main-btn {
+      background-color: var(--azul-cuba);
+      border: none;
+      color: var(--blanco-cuba);
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(0,51,160,0.4);
+    }
+
+    .btn-enviar {
+      background-color: var(--rojo-cuba);
+      color: var(--blanco-cuba);
+      border: none;
+      border-radius: 0.6rem;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(211,47,47,0.4);
+    }
+
+    .result {
+      margin-top: 1.2rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--azul-cuba);
+      min-height: 2.2em;
+      line-height: 1.4;
+      background: rgba(0,51,160,0.06);
+      border: 1px solid var(--azul-cuba);
+      border-radius: 0.6rem;
+      padding: 0.75rem 0.9rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2><span class="flag">🇨🇺</span> AriDay Remesas</h2>
+    <p class="subtitle">
+      <a href="https://wa.me/5491165218910" target="_blank">
+        WhatsApp: +54 9 11 6521 8910
+      </a>
+    </p>
+
+    <label>Convertir de → a:</label>
+    <div class="selector-group">
+      <select id="currencyFrom">
+        <option value="CUP">CUP</option>
+        <option value="ARS">ARS</option>
+      </select>
+      <button type="button" class="swap-btn" onclick="swapCurrencies()">⇄</button>
+      <select id="currencyTo">
+        <option value="ARS">ARS</option>
+        <option value="CUP">CUP</option>
+      </select>
+    </div>
+
+    <label for="amount">Ingrese monto:</label>
+    <input type="text" id="amount" placeholder="Ej: 150,000" maxlength="13" />
+
+    <div class="result" id="resultText"></div>
+
+    <button class="main-btn" onclick="calculate()">Calcular</button>
+    <button class="btn-enviar" onclick="sendToWhatsApp()">Enviar por WhatsApp</button>
+  </div>
+
+  <script>
+    const TASA_ARS   = 1400;
+    const TASA_CUP   = 515;
+    const EXTRA_PCT  = 0.10;
+    let lastResult = '';
+
+    function formatNumber(n) {
+      return Number.isInteger(n)
+        ? n.toLocaleString('es-AR')
+        : n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function enforceNumericInput(event) {
+      let value = event.target.value.replace(/\D/g, '');
+      if (value.length > 9) value = value.slice(0, 9);
+      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      event.target.value = value;
+    }
+
+    window.onload = () => {
+      document.getElementById('amount').addEventListener('input', enforceNumericInput);
+    };
+
+    function swapCurrencies() {
+      const f = document.getElementById('currencyFrom');
+      const t = document.getElementById('currencyTo');
+      [f.value, t.value] = [t.value, f.value];
+      document.getElementById('resultText').textContent = '';
+    }
+
+    function calculate() {
+      const from = document.getElementById('currencyFrom').value;
+      const to = document.getElementById('currencyTo').value;
+      const raw = document.getElementById('amount').value;
+      const num = parseFloat(raw.replace(/,/g, ''));
+      const out = document.getElementById('resultText');
+
+      if (!raw || isNaN(num) || num <= 0) {
+        out.textContent = 'Ingrese un monto válido.';
+        return;
+      }
+
+      let resultText = '';
+
+      if (from === 'CUP' && to === 'ARS') {
+        const ars = (num / (TASA_CUP * (1 + EXTRA_PCT))) * TASA_ARS;
+        resultText = `💱 Con ${formatNumber(num)} CUP recibís aprox. ${formatNumber(ars)} ARS.`;
+        lastResult = `Quiero enviar ${formatNumber(num)} CUP y recibir ${formatNumber(ars)} ARS.`;
+      }
+      else if (from === 'ARS' && to === 'CUP') {
+        const cup = ((num / TASA_ARS) * (1 + EXTRA_PCT)) * TASA_CUP;
+        resultText = `💱 Recibís aprox. ${formatNumber(cup)} CUP con ${formatNumber(num)} ARS.`;
+        lastResult = `Quiero enviar ${formatNumber(num)} ARS y recibir ${formatNumber(cup)} CUP.`;
+      }
+      else {
+        resultText = 'Conversión no válida.';
+      }
+
+      out.textContent = resultText;
+    }
+
+    function sendToWhatsApp() {
+      if (!lastResult) {
+        alert('Primero calcula un monto válido antes de enviar.');
+        return;
+      }
+      const phone = '5491165218910';
+      window.open(
+        `https://wa.me/${phone}?text=${encodeURIComponent(lastResult)}`,
+        '_blank'
+      );
+    }
+  </script>
+
+</body>
+</html>
